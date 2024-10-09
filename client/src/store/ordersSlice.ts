@@ -17,6 +17,18 @@ export interface OrderItem {
   quantity: number;
 }
 
+export interface Order {
+  id: number;
+  total: number;
+  orderItems: OrderItem[];
+}
+
+export interface OrderRequest {
+  userId: number;
+  total: number;
+  orderItems: { productId: number; quantity: number }[];
+}
+
 // type OrderItemUpdate = Pick<OrderItem, "id" | "title" | "content">;
 // type NewOrderItem = Pick<OrderItem, "title" | "content" | "user">;
 
@@ -42,16 +54,18 @@ export const fetchOrderItems = createAppAsyncThunk(
   }
 );
 
-// export const addNewOrderItem = createAppAsyncThunk(
-//   "orderitems/addNewOrderItem",
-//   async (initialOrderItem: NewOrderItem) => {
-//     const response = await api.post<OrderItem>(
-//       "/fakeApi/orderItems",
-//       initialOrderItem
-//     );
-//     return response.data;
-//   }
-// );
+export const addNewOrder = createAppAsyncThunk(
+  "orderItems/addNewOrder",
+  async (orderItemRequest: OrderRequest) => {
+    const { orderItems, userId, total } = orderItemRequest;
+
+    const response = await api.post<Order>(`/orders/${userId}`, {
+      orderItems,
+      total,
+    });
+    return response.data.orderItems;
+  }
+);
 
 const initialState: OrderItemsState = {
   orderItems: [],
@@ -99,10 +113,10 @@ const orderitemsSlice = createSlice({
       .addCase(fetchOrderItems.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.error.message ?? "Unknown Error";
+      })
+      .addCase(addNewOrder.fulfilled, (state, action) => {
+        state.orderItems.push(...action.payload);
       });
-    //   .addCase(addNewOrderItem.fulfilled, (state, action) => {
-    //     state.orderItems.push(action.payload);
-    //   });
   },
 });
 

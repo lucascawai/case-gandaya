@@ -11,6 +11,9 @@ export class OrderRouter {
     router.get("/with-products", (req, res) =>
       orderControllerAdapter.getOrderItemsWithProducts(req, res)
     );
+    router.post("/:id", (req, res) =>
+      orderControllerAdapter.postOrder(req, res)
+    );
 
     return router;
   };

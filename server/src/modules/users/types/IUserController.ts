@@ -1,5 +1,5 @@
 import { BaseResponse } from "@/src/types";
-import { HasSufficientBalance, PrismaUser } from "../entities/User";
+import { HasSufficientBalance, NewBalance, PrismaUser } from "../entities/User";
 
 export interface IUserController {
   getUserById(id: number): Promise<BaseResponse<PrismaUser>>;
@@ -8,4 +8,8 @@ export interface IUserController {
     id: number,
     amountToCheck: number
   ): Promise<BaseResponse<HasSufficientBalance>>;
+  putUserBalanceById(
+    id: number,
+    total: number
+  ): Promise<BaseResponse<NewBalance>>;
 }

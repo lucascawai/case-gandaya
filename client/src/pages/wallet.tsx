@@ -9,7 +9,7 @@ import {
   selectOrderItemsError,
   selectOrderItemsStatus,
 } from "../store/ordersSlice";
-import { selectUserBalance } from "../store/userSlice";
+import { fetchUser, selectUserBalance } from "../store/userSlice";
 
 interface OrderItemExcerptProps {
   orderItem: OrderItem;
@@ -17,11 +17,23 @@ interface OrderItemExcerptProps {
 
 function OrderItemExcerpt({ orderItem }: OrderItemExcerptProps) {
   return (
-    <article key={orderItem.id} className="flex flex-row justify-evenly">
-      <div>{orderItem.quantity}</div>
-      <div>{orderItem.product.name}</div>
-      <div>{orderItem.product.price * orderItem.quantity}</div>
-    </article>
+    <div key={orderItem.id} className="flex flex-row my-2 items-center">
+      <div className="w-12 h-12 font-paytone text-xl rounded-lg border-[#a3a3a3] border-2 flex justify-center items-center">
+        {orderItem.quantity}
+      </div>
+      <div className="flex flex-col ml-2">
+        <div className="font-fira font-bold text-base">
+          {orderItem.product.name}
+        </div>
+        <div className="text-xs font-fira font-bold text-gandaya-gray">
+          data
+        </div>
+        <div className="text-gandaya-green font-fira font-bold text-xs">
+          {" "}
+          R$ {orderItem.product.price * orderItem.quantity}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -42,6 +54,7 @@ export const Wallet = () => {
     if (orderItemsStatus === "idle") {
       dispatch(fetchOrderItems());
     }
+    dispatch(fetchUser());
   }, [orderItemsStatus, dispatch]);
 
   let content: React.ReactNode;
@@ -49,11 +62,6 @@ export const Wallet = () => {
   if (orderItemsStatus === "pending") {
     content = <div>Carregando...</div>;
   } else if (orderItemsStatus === "succeeded") {
-    // Sort orders in reverse chronological order by datetime string
-    // const orderedOrders = orderItems
-    //   .slice()
-    //   .sort((a, b) => b.date.localeCompare(a.date));
-
     content = orderItems.map((orderItem) => (
       <OrderItemExcerpt key={orderItem.id} orderItem={orderItem} />
     ));
@@ -63,34 +71,47 @@ export const Wallet = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-2xl font-bold">Carteira</div>
-      <>
-        <div className="text-xs font-fira">Saldo disponível</div>
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row">
-            <div className="">R$</div>
-            {visibility ? (
-              <div className="">...</div>
-            ) : (
-              <div>{userBalance}</div>
-            )}
+      <div className="fixed left-0 right-0 z-10 bg-[#232323]">
+        <div className="text-2xl font-bold text-right mr-5 mt-5">Carteira</div>
+        <div className="mt-4">
+          <div className="text-xs font-fira text-gandaya-gray ml-5">
+            Saldo disponível
           </div>
-          <div onClick={handleVisibility}>
-            <img
-              src={visualizationEye}
-              alt="visualization eye"
-              className="rounded-lg"
-            />
+          <div className="flex flex-row justify-between mx-5">
+            <div className="flex flex-row font-fira text-[32px] font-bold">
+              <div className="pr-2">R$</div>
+              {visibility ? (
+                <div className="leading-9">....</div>
+              ) : (
+                <div>{userBalance}</div>
+              )}
+            </div>
+            <div onClick={handleVisibility} className="">
+              <img
+                src={visualizationEye}
+                alt="visualization eye"
+                className="rounded-lg"
+              />
+            </div>
           </div>
         </div>
-      </>
-      <>
-        <div>Histórico de pedidos:</div>
+        <div className="mt-4">
+          <div className="font-fira text-semibold text-sm text-gandaya-gray ml-5">
+            Histórico de pedidos:
+          </div>
+        </div>
+      </div>
+      <div className="flex-grow overflow-y-auto mx-5 pt-40 pb-20">
         {content}
-      </>
-      <>
-        <Link to={"/menu"}>Comprar produto</Link>
-      </>
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 z-10 bg-[#232323] h-20 flex justify-center items-center">
+        <Link
+          to={"/menu"}
+          className="bg-gandaya-green rounded-[32px] h-12 w-64 flex justify-center items-center"
+        >
+          <div className="font-bold text-black">Comprar produtos</div>
+        </Link>
+      </div>
     </div>
   );
 };

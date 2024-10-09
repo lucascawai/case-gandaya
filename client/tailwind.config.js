@@ -5,6 +5,12 @@ export default {
     extend: {
       fontFamily: {
         fira: ["Fira Sans", "sans-serif"],
+        paytone: ["Paytone One"],
+      },
+      colors: {
+        "gandaya-gray": "#656565",
+        "gandaya-green": "#d5ff5c",
+        "gandaya-black": "#181818",
       },
     },
   },

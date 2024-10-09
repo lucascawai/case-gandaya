@@ -4,6 +4,7 @@ import {
   getUserById,
   getUserBalanceById,
   getUserByIdWithOrders,
+  putUserBalanceById,
 } from "./methods";
 
 export class UserService implements IUserService {
@@ -12,4 +13,5 @@ export class UserService implements IUserService {
   getUserById = getUserById;
   getUserByIdWithOrders = getUserByIdWithOrders;
   getUserBalanceById = getUserBalanceById;
+  putUserBalanceById = putUserBalanceById;
 }
