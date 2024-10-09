@@ -16,7 +16,7 @@ export function dateToFormat(date: string | undefined): string {
   const formattedDate = `${dayOfWeek.slice(
     0,
     3
-  )}, ${dayOfMonth} de ${monthFullName} às ${hours}:${minutes}`;
+  )}, ${dayOfMonth} de ${monthFullName.slice(0, 3)} às ${hours}:${minutes}`;
 
   return formattedDate;
 }
