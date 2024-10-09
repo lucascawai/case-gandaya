@@ -24,7 +24,6 @@ export const Menu = () => {
   async function handleGetProducts(): Promise<void> {
     const { productsData } = await getProducts();
     if (productsData) {
-      console.log(productsData);
       setProducts(productsData);
     }
   }

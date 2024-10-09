@@ -55,9 +55,6 @@ export const Wallet = () => {
     if (orderItemsStatus === "idle") {
       dispatch(fetchOrderItems());
     }
-    if (orderItemsStatus === "succeeded") {
-      console.log(orderItems);
-    }
     dispatch(fetchUser());
   }, [orderItemsStatus, dispatch]);
 
