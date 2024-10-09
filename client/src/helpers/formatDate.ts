@@ -2,8 +2,11 @@ import { parseISO, format } from "date-fns";
 import { capitalizeString } from "./formatString";
 import { ptBR } from "date-fns/locale";
 
-export function dateToFormat(date: string | undefined): string {
-  if (date === undefined || date === "") return "";
+export function dateToFormat(date: string | undefined): {
+  dayAndMonth?: string;
+  hoursAndMinutes?: string;
+} {
+  if (date === undefined || date === "") return {};
 
   const dateObj = parseISO(date);
 
@@ -13,10 +16,16 @@ export function dateToFormat(date: string | undefined): string {
   const dayOfMonth = capitalizeString(format(dateObj, "dd", { locale: ptBR }));
   const monthFullName = format(dateObj, "MMMM", { locale: ptBR });
 
-  const formattedDate = `${dayOfWeek.slice(
-    0,
-    3
-  )}, ${dayOfMonth} de ${monthFullName.slice(0, 3)} às ${hours}:${minutes}`;
+  // const formattedDate = `${dayOfWeek.slice(
+  //   0,
+  //   3
+  // )}, ${dayOfMonth} de ${monthFullName.slice(0, 3)} às ${hours}:${minutes}`;
 
-  return formattedDate;
+  return {
+    dayAndMonth: `${dayOfWeek.slice(
+      0,
+      3
+    )}, ${dayOfMonth} de ${monthFullName.slice(0, 3)}`,
+    hoursAndMinutes: `${hours}:${minutes}`,
+  };
 }

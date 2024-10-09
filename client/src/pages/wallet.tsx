@@ -26,8 +26,11 @@ function OrderItemExcerpt({ orderItem }: OrderItemExcerptProps) {
         <div className="font-fira font-bold text-base">
           {orderItem.product.name}
         </div>
-        <div className="text-xs font-fira font-bold text-gandaya-gray">
-          {dateToFormat(orderItem.createdAt)}
+        <div className="text-xs font-fira text-gandaya-gray flex flex-row">
+          <div className="font-bold pr-1">
+            {dateToFormat(orderItem.createdAt).dayAndMonth}
+          </div>{" "}
+          às {dateToFormat(orderItem.createdAt).hoursAndMinutes}
         </div>
         <div className="text-gandaya-green font-fira font-bold text-xs">
           {" "}
