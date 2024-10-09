@@ -1,5 +1,4 @@
 # Case Gandaya
-A case for gandaya interview
 
 ## Como executar
 Seguindo os moldes do live-coding
