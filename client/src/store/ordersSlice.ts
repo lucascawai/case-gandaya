@@ -15,6 +15,7 @@ export interface OrderItem {
   id: number;
   product: Product;
   quantity: number;
+  createdAt: string;
 }
 
 export interface Order {

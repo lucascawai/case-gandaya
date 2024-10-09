@@ -10,6 +10,7 @@ import {
   selectOrderItemsStatus,
 } from "../store/ordersSlice";
 import { fetchUser, selectUserBalance } from "../store/userSlice";
+import { dateToFormat } from "../helpers/formatDate";
 
 interface OrderItemExcerptProps {
   orderItem: OrderItem;
@@ -26,7 +27,7 @@ function OrderItemExcerpt({ orderItem }: OrderItemExcerptProps) {
           {orderItem.product.name}
         </div>
         <div className="text-xs font-fira font-bold text-gandaya-gray">
-          data
+          {dateToFormat(orderItem.createdAt)}
         </div>
         <div className="text-gandaya-green font-fira font-bold text-xs">
           {" "}
@@ -53,6 +54,9 @@ export const Wallet = () => {
   useEffect(() => {
     if (orderItemsStatus === "idle") {
       dispatch(fetchOrderItems());
+    }
+    if (orderItemsStatus === "succeeded") {
+      console.log(orderItems);
     }
     dispatch(fetchUser());
   }, [orderItemsStatus, dispatch]);
